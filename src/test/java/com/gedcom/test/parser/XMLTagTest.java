@@ -27,19 +27,36 @@ public class XMLTagTest {
 	}
 	
 	@Test
-	public void XMLTagIDCreateXMLTest(){
-		XMLTagBase nameTag = new XMLTagID();
+	public void XMLTagNameCreateXMLTestWithNoValue(){
+		XMLTagBase nameTag = new XMLTagName();
 		nameTag.setXmlTagName("TEST");
-		nameTag.setXmlTagValue("test");
+		nameTag.setXmlTagValue("");
 		
 		String start = nameTag.createXmlStartTagString();
-		assertTrue(start.equals("<TEST id=\"test\"> \n"));
+		assertTrue(start.equals("<TEST> \n"));
 		
 		String end = nameTag.createXmlEndTagString();
 		assertTrue(end.equals("</TEST> \n"));	
 		
 		String both = nameTag.createXmlTagString();
-		assertTrue(both.equals("<TEST id=\"test\"/> \n"));			
+		assertTrue(both.equals("<TEST></TEST> \n"));			
+	}
+	
+	
+	@Test
+	public void XMLTagIDCreateXMLTest(){
+		XMLTagBase nameTag = new XMLTagID();
+		nameTag.setXmlTagName("TEST");
+		nameTag.setXmlTagValue("@ID@");
+		
+		String start = nameTag.createXmlStartTagString();
+		assertTrue(start.equals("<TEST id=\"@ID@\"> \n"));
+		
+		String end = nameTag.createXmlEndTagString();
+		assertTrue(end.equals("</TEST> \n"));	
+		
+		String both = nameTag.createXmlTagString();
+		assertTrue(both.equals("<TEST id=\"@ID@\"/> \n"));			
 	}
 	
 	@Test

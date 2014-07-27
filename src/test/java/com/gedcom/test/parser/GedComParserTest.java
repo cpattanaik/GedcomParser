@@ -1,9 +1,15 @@
 package com.gedcom.test.parser;
 
-import org.junit.After;
+import static org.junit.Assert.*;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import com.gedcom.exception.GedcomParserException;
 import com.gedcom.parser.GedComParser;
 
 public class GedComParserTest {
@@ -12,59 +18,69 @@ public class GedComParserTest {
 	@Before
 	public void init(){
 		gedcomParser = new GedComParser();
+	}
+	
+	@Test
+	public void GedcomParserTestWithValidInputFilePath1() throws GedcomParserException, IOException{
+		String InputFilePath = "C:\\test\\sample1.txt";
+		String OutputFilePath = "C:\\test\\sample1.xml";
+		String ExpectedFilePath = "C:\\test\\expected1.xml";
+		gedcomParser.generateXML(InputFilePath, OutputFilePath);
 		
-	}
-	@After
-	public void destroy(){
-		//Not Implemented
-	}
+		boolean isEqual = compareFiles(OutputFilePath, ExpectedFilePath);
+		assertTrue(isEqual);
+	}	
 	
 	@Test
-	public void GedcomParserTestWithNullFilePath() throws Exception {
-		String InputFilePath = null;
-		String OutputFilePath = null;
+	public void GedcomParserTestWithValidInputFilePath2() throws GedcomParserException, IOException{
+		String InputFilePath = "C:\\test\\sample2.txt";
+		String OutputFilePath = "C:\\test\\sample2.xml";
+		String ExpectedFilePath = "C:\\test\\expected2.xml";
 		gedcomParser.generateXML(InputFilePath, OutputFilePath);
-	}
+		
+		boolean isEqual = compareFiles(OutputFilePath, ExpectedFilePath);
+		assertTrue(isEqual);
+	}	
+	
+	@Test(expected = GedcomParserException.class)
+	public void GedcomParserTestWithInValidInput() throws GedcomParserException, IOException{
+		String InputFilePath = "C:\\test\\InvalidSample.txt";
+		String OutputFilePath = "C:\\test\\sample3.xml";
+		String ExpectedFilePath = "C:\\test\\expected3.xml";
+		gedcomParser.generateXML(InputFilePath, OutputFilePath);
+		
+		boolean isEqual = compareFiles(OutputFilePath, ExpectedFilePath);
+		assertTrue(isEqual);
+	}	
+	
 	/*
-	@Test
-	public void GedcomParserTestWithEmptyFilePath() throws Exception {
-		String InputFilePath = "";
-		String OutputFilePath = "";
-		gedcomParser.generateXML(InputFilePath, OutputFilePath);
+	 * Utility function for comparing files line by line to check if both files are same
+	 */
+	private boolean compareFiles(String outputFilePath, String expectedFilePath) throws IOException {
+		BufferedReader expectedReader = new BufferedReader(new FileReader(expectedFilePath));
+		BufferedReader actualReader = new BufferedReader(new FileReader(outputFilePath));
+
+		boolean isEqual = true;
+
+		String line1 = null;
+		String line2 = null;
+
+		while (true)
+		{
+			line1 = expectedReader.readLine() ;
+			line2 = actualReader.readLine();
+			if(line1 == null && line2 == null){
+				break;
+			}else if(line1 == null || line2 == null){
+				isEqual = false;
+				break;
+			}else if(!line1.equals(line2)){
+				isEqual = false;
+				break;
+			}
+		}
+		expectedReader.close();
+		actualReader.close();
+		return isEqual;
 	}
-	
-	@Test
-	public void GedcomParserTestWithEmptyInputFilePath() throws Exception {
-		String InputFilePath = "";
-		String OutputFilePath = "";
-		gedcomParser.generateXML(InputFilePath, OutputFilePath);
-	}	
-	
-	@Test
-	public void GedcomParserTestWithNullInputFilePath() throws Exception {
-		String InputFilePath = null;
-		String OutputFilePath = "";
-		gedcomParser.generateXML(InputFilePath, OutputFilePath);
-	}	
-	
-	@Test
-	public void GedcomParserTestWithEmptyOutputFilePath() throws Exception {
-		String InputFilePath = "";
-		String OutputFilePath = "";
-		gedcomParser.generateXML(InputFilePath, OutputFilePath);
-	}	
-	
-	@Test
-	public void GedcomParserTestWithNullOutputFilePath() throws Exception {
-		String InputFilePath = "";
-		String OutputFilePath = null;
-		gedcomParser.generateXML(InputFilePath, OutputFilePath);
-	}		
-	@Test
-	public void GedcomParserTestWithValidFilePaths() throws Exception {
-		String InputFilePath = "";
-		String OutputFilePath = "";
-		gedcomParser.generateXML(InputFilePath, OutputFilePath);
-	}			
-*/
 }

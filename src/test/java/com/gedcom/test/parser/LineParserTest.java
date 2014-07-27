@@ -2,19 +2,15 @@ package com.gedcom.test.parser;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.gedcom.exception.GedcomParserException;
 import com.gedcom.parser.LineParser;
 
 public class LineParserTest {
-	@Before
-	public void init(){
-		
-	}
+
 	@Test
-	public void LineParserCreateTagNameTestWithGetXMLTagMethods() throws GedcomParserException{
+	public void LineParserCreateTagNameTestWithGetXMLTagMethods1() throws GedcomParserException{
 		String line = "0 THU abcd efg";
 		LineParser parser = new LineParser(line);
 		assertNotNull(parser);
@@ -23,6 +19,16 @@ public class LineParserTest {
 		assertTrue(parser.createXmlEndTagString().equals("</THU> \n"));
 		assertTrue(parser.createXmlTagString().equals("<THU>abcd efg</THU> \n"));
 	}
+	@Test
+	public void LineParserCreateTagNameTestWithGetXMLTagMethods2() throws GedcomParserException{
+		String line = "0 THU ";
+		LineParser parser = new LineParser(line);
+		assertNotNull(parser);
+		assertTrue(parser.getLevel() == 0);
+		assertTrue(parser.createXmlStartTagString().equals("<THU> \n"));
+		assertTrue(parser.createXmlEndTagString().equals("</THU> \n"));
+		assertTrue(parser.createXmlTagString().equals("<THU></THU> \n"));
+	}	
 	@Test
 	public void LineParserCreateTagRootTestWithGetXMLTagMethods(){
 		LineParser parser = new LineParser();
@@ -88,9 +94,9 @@ public class LineParserTest {
 		LineParser parser = new LineParser(line);
 		assertNotNull(parser);
 	}	
-	@Test
+	@Test(expected = GedcomParserException.class)
 	public void LineParserValidationTestWithTagIDValueValidation3() throws GedcomParserException{
-		String line = "1 THRS xyz mnl";
+		String line = "1 THrS xyz mnl";
 		LineParser parser = new LineParser(line);
 		assertNotNull(parser);
 	}	
@@ -105,22 +111,26 @@ public class LineParserTest {
 		String line = "1 @ID@ XYRZ";
 		LineParser parser = new LineParser(line);
 		assertNotNull(parser);
-	}	
+	}
+	@Test(expected = GedcomParserException.class)
 	public void LineParserValidationTestWithTagIDValueValidation6() throws GedcomParserException{
 		String line = "1 @ID@ XYZZZ";
 		LineParser parser = new LineParser(line);
 		assertNotNull(parser);
-	}	
+	}
+	@Test(expected = GedcomParserException.class)
 	public void LineParserValidationTestWithTagIDValueValidation7() throws GedcomParserException{
 		String line = "1 @ID@ YZ";
 		LineParser parser = new LineParser(line);
 		assertNotNull(parser);
 	}	
+	@Test(expected = GedcomParserException.class)
 	public void LineParserValidationTestWithTagIDValueValidation8() throws GedcomParserException{
-		String line = "1 ";
+		String line = "1 uYZ ";
 		LineParser parser = new LineParser(line);
 		assertNotNull(parser);
 	}	
+	@Test(expected = GedcomParserException.class)
 	public void LineParserValidationTestWithTagIDValueValidation9() throws GedcomParserException{
 		String line = "1 @ID@ ";
 		LineParser parser = new LineParser(line);
@@ -128,14 +138,14 @@ public class LineParserTest {
 	}	
 	@Test(expected = GedcomParserException.class)
 	public void LineParserValidationTestWitTagIDValueValidation10() throws GedcomParserException{
-		String line = "1 XYZ ";
+		String line = "1 ";
 		LineParser parser = new LineParser(line);
 		assertNotNull(parser);
 	}	
 	
 	@Test(expected = GedcomParserException.class)
 	public void LineParserValidationTestWitTagIDValueValidation11() throws GedcomParserException{
-		String line = " ";
+		String line = " XYZ ";
 		LineParser parser = new LineParser(line);
 		assertNotNull(parser);
 	}			

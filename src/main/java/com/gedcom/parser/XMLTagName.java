@@ -22,7 +22,12 @@ public class XMLTagName extends XMLTagBase {
 
 	@Override
 	public String createXmlStartTagString() {
-		String xmlString = "<"+ xmlTagName + " value=\"" + xmlTagValue + "\"> \n";
+		String xmlString;
+		if(!xmlTagValue.isEmpty()){
+			xmlString = "<"+ xmlTagName + " value=\"" + xmlTagValue + "\"> \n";
+		}else{
+			xmlString = "<"+ xmlTagName + "> \n";
+		}
 		return xmlString;	
 	}
 

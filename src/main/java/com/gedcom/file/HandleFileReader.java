@@ -19,7 +19,7 @@ public class HandleFileReader implements HandleReader{
 		
 		File file = new File(filePath);
 		if (!file.exists()) {
-			throw new GedcomParserException("File Does Not Exist");
+			throw new GedcomParserException("File Does Not Exist: "+ filePath);
 		}
 		
 		try {

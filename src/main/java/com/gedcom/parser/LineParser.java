@@ -37,13 +37,13 @@ public class LineParser {
 	}
     private boolean validateLine(String[] words) {
     	//Minimal Number of Words Validation
-    	if(words.length > 0 && words.length < 3){
+    	if(words.length < 2){
     		return false;
     	}
     	
     	// Level Validation
     	try{ 
-        	Integer.parseInt(words[0]);
+        	Integer.parseInt(words[0].toString());
     	}catch(NumberFormatException e) { 
     		return false; 
     	}
