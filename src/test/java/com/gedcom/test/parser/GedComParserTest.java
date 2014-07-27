@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +23,15 @@ public class GedComParserTest {
 	
 	@Test
 	public void GedcomParserTestWithValidInputFilePath1() throws GedcomParserException, IOException{
-		String InputFilePath = "C:\\test\\sample1.txt";
-		String OutputFilePath = "C:\\test\\sample1.xml";
-		String ExpectedFilePath = "C:\\test\\expected1.xml";
+		URL url1 = getClass().getResource("/sample1.txt");
+		String InputFilePath = url1.getPath();
+		
+		URL url2 = getClass().getResource("/sample1.xml");
+		String OutputFilePath = url2.getPath();
+		
+		URL url3 = getClass().getResource("/expected1.xml");
+		String ExpectedFilePath = url3.getPath();
+		
 		gedcomParser.generateXML(InputFilePath, OutputFilePath);
 		
 		boolean isEqual = compareFiles(OutputFilePath, ExpectedFilePath);
@@ -33,9 +40,15 @@ public class GedComParserTest {
 	
 	@Test
 	public void GedcomParserTestWithValidInputFilePath2() throws GedcomParserException, IOException{
-		String InputFilePath = "C:\\test\\sample2.txt";
-		String OutputFilePath = "C:\\test\\sample2.xml";
-		String ExpectedFilePath = "C:\\test\\expected2.xml";
+		URL url1 = getClass().getResource("/sample2.txt");
+		String InputFilePath = url1.getPath();
+		
+		URL url2 = getClass().getResource("/sample2.xml");
+		String OutputFilePath = url2.getPath();
+		
+		URL url3 = getClass().getResource("/expected2.xml");
+		String ExpectedFilePath = url3.getPath();
+		
 		gedcomParser.generateXML(InputFilePath, OutputFilePath);
 		
 		boolean isEqual = compareFiles(OutputFilePath, ExpectedFilePath);
@@ -44,9 +57,15 @@ public class GedComParserTest {
 	
 	@Test(expected = GedcomParserException.class)
 	public void GedcomParserTestWithInValidInput() throws GedcomParserException, IOException{
-		String InputFilePath = "C:\\test\\InvalidSample.txt";
-		String OutputFilePath = "C:\\test\\sample3.xml";
-		String ExpectedFilePath = "C:\\test\\expected3.xml";
+		URL url1 = getClass().getResource("/InvalidSample.txt");
+		String InputFilePath = url1.getPath();
+		
+		URL url2 = getClass().getResource("/sample3.xml");
+		String OutputFilePath = url2.getPath();
+		
+		URL url3 = getClass().getResource("/expected3.xml");
+		String ExpectedFilePath = url3.getPath();
+
 		gedcomParser.generateXML(InputFilePath, OutputFilePath);
 		
 		boolean isEqual = compareFiles(OutputFilePath, ExpectedFilePath);

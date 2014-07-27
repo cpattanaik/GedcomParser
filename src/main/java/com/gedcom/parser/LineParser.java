@@ -81,10 +81,12 @@ public class LineParser {
 		return Integer.parseInt(level);
 	}
 	
+	//It will be called from composite element
 	public String createXmlStartTagString() {
 		return xmlTag.createXmlStartTagString();
 	}
 	
+	//It will be called from composite element
 	public String createXmlEndTagString() {
 		return xmlTag.createXmlEndTagString();
 	}
